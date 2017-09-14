@@ -1,5 +1,5 @@
 from threading import Thread
-from util import Constant
+from model.util import Constant
 import socket
 
 
@@ -21,8 +21,7 @@ class MessageServer(Thread):
         self.message_socket.listen(1)
 
     def run(self):
-        print("Start server receptor")
-        connection, client_address = self.message_socket.accept()
+        connection, client_address = self.accept_client()
         try:
             while self.active:
                 message = connection.recv(Constant.MessageServerBufferSize)
@@ -34,6 +33,12 @@ class MessageServer(Thread):
         finally:
             connection.close()
         print("Stop server receptor")
+
+    def accept_client(self):
+        print("Start message receptor")
+        connection, client_address = self.message_socket.accept()
+
+        return connection, client_address
 
     def stop(self):
         self.active = False
