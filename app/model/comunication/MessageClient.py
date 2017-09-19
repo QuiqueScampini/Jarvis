@@ -1,7 +1,6 @@
 from threading import Thread
 import socket
 
-
 class MessageClient(Thread):
 
     message_socket = None
@@ -11,7 +10,7 @@ class MessageClient(Thread):
     def __init__(self, val):
         Thread.__init__(self)
         self.val = val
-        self.start_socket()
+        #self.start_socket()
         self.active = True
 
     def start_socket(self):
@@ -21,11 +20,13 @@ class MessageClient(Thread):
     def run(self):
         print("Aca arranca un thread que recibe una cola de mensajes al cliente y los envia")
         while self.active:
+            self.active = False
             print("Working sending messages")
-        self.message_socket.close()
+        #self.message_socket.close()
 
     def stop(self):
         self.active = False
+
 
     #TODO Bullshit Methods
     def send_battery_level(self, client, level):

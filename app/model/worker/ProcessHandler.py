@@ -2,6 +2,7 @@ from threading import Thread
 from queue import Queue
 import time
 import logging
+import json
 
 
 class ProcessHandler(Thread):
@@ -21,8 +22,24 @@ class ProcessHandler(Thread):
         while self.active:
             if not self.process_queue.empty():
                 message = self.process_queue.get()
-                logging.debug('Getting ' + str(message) + ' : ' + str(self.process_queue.qsize()) + ' items in queue')
+                if message:
+                    self.process_message(message)
+                    logging.debug('Getting ' + str(message) + ' : ' + str(self.process_queue.qsize()) + ' items in queue')
             time.sleep(1)
 
     def stop(self):
         self.active = False
+
+    def process_message(self, message):
+        json_action = json.loads(message)
+        message_type = json_action["messageType"]
+
+        if message_type == "1":
+            logging.info('Move Car')
+            self.process_movement(json_action)
+        elif message_type == "6":
+            logging.info('Llego 6')
+        pass
+
+    def process_movement(self, json_action):
+        pass
