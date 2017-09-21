@@ -4,12 +4,12 @@ workdir=`pwd`/app
  
 start() {
 	echo "Starting Server - `date '+%d/%m/%Y %H:%M:%S'`" >> ../log/jarvis-server.log
-    python -u jarvis.py >> ../log/jarvis-server.log & 
+    python3 -u Jarvis.py
     echo "Server started."
 }
  
 stop() {
-    pid=`ps -ef | grep '[p]ython Jarvis.py' | awk '{ print $2 }'`
+    pid=`ps -ef | grep 'Jarvis.py' | grep -v grep | awk '{ print $2 }'`
     echo $pid
     kill $pid
     sleep 2

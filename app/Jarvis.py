@@ -34,6 +34,5 @@ if __name__ == '__main__':
     jarvisInstance = Jarvis()
     JarvisManager.jarvis = jarvisInstance
     jarvisInstance.start()
-    JarvisManager.process_handler.process_message("{\"messageType\":\"6\",\"side\":\"9\"}")
     jarvisInstance.wait_joins()
     logging.debug('End')

@@ -26,9 +26,10 @@ class MessageServer(Thread):
             self.accept_client()
             while self.active:
                 message = self.connection.recv(Constant.MessageServerBufferSize)
+                message_str = message.decode('utf-8')
                 if message:
-                    JarvisManager.process_handler.process_queue.put(message)
-                    logging.debug('Message received' + message)
+                    JarvisManager.process_handler.process_queue.put(message_str)
+                    logging.debug('Message received' + message_str)
                     self.connection.send(message)  # echo
                 else:
                     break
@@ -42,7 +43,7 @@ class MessageServer(Thread):
         while self.waiting_client:
             try:
                 self.connection, self.client_address = self.message_socket.accept()
-                logging.info('Client Connected' + self.client_address)
+                logging.info('Client Connected' + self.client_address[0])
                 self.active = True
                 self.waiting_client = False
                 break
@@ -55,3 +56,6 @@ class MessageServer(Thread):
         else:
             self.active = False
             self.message_socket.shutdown(socket.SHUT_WR)
+
+    def send_message(self, message):
+        self.connection.send(message.encode())

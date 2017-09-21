@@ -4,6 +4,9 @@ import time
 import logging
 import json
 
+from model.driver import CarDriver
+from model.util import JarvisManager
+
 
 class ProcessHandler(Thread):
 
@@ -25,13 +28,20 @@ class ProcessHandler(Thread):
                 if message:
                     self.process_message(message)
                     logging.debug('Getting ' + str(message) + ' : ' + str(self.process_queue.qsize()) + ' items in queue')
-            time.sleep(1)
+            time.sleep(0.2)
 
     def stop(self):
         self.active = False
 
     def process_message(self, message):
-        json_action = json.loads(message)
+
+        try:
+            json_action = json.loads(message)
+        except Exception as error:
+            JarvisManager.message_server.send_message('{"messageType": 9,"message": "mensaje","stackTrace": "'
+                                                      + str(error) + '"}')
+            return
+
         message_type = json_action["messageType"]
 
         if message_type == "1":
@@ -42,4 +52,5 @@ class ProcessHandler(Thread):
         pass
 
     def process_movement(self, json_action):
+        CarDriver.CarDriver.move_car(json_action)
         pass
