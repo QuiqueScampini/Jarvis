@@ -1,6 +1,5 @@
 from threading import Thread
-from model.util import Constant, JarvisManager
-from model.worker import ProcessHandler
+from model.util.Constant import Constant
 import socket
 import logging
 
@@ -30,7 +29,7 @@ class MessageServer(Thread):
                 if message:
                     JarvisManager.process_handler.process_queue.put(message_str)
                     logging.debug('Message received' + message_str)
-                    self.connection.send(message)  # echo
+                    self.connection.send(message)
                 else:
                     break
         finally:

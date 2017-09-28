@@ -1,7 +1,50 @@
+#import pigpio
 
-def start_gpio():
-    print("Started")
 
+class JarvisGpio:
+
+    #gpio_manager = pigpio.pi()
+    speed_Pin = 18
+    direction_Pin = 17
+
+    front_Echo_Left_Pin = 19
+    front_Trig_Left_Pin = 26
+
+    back_Echo_Left_Pin = 16
+    back_Trig_Left_Pin =20
+
+    front_Echo_Right_Pin = 19
+    front_Trig_Right_Pin = 26
+
+    back_Echo_Right_Pin = 16
+    back_Trig_Right_Pin =20
+
+    max_speed = 2000
+    min_speed = 700
+
+    max_left = 2000
+    max_right = 1000
+
+    @classmethod
+    def set_speed(cls, speed_value):
+        if speed_value > cls.max_speed:
+            speed_value = cls.max_speed
+        elif speed_value < cls.min_speed:
+            speed_value = cls.min_speed
+        cls.set_servo_value(speed_value, cls.speed_Pin)
+
+    @classmethod
+    def set_direction(cls, direction_value):
+        if direction_value > cls.max_left:
+            direction_value = cls.max_left
+        elif direction_value < cls.max_right:
+            direction_value = cls.max_right
+        cls.set_servo_value(direction_value, cls.direction_Pin)
+
+    @classmethod
+    def set_servo_value(cls,value,pin):
+        cls.speed_Pin
+        #cls.gpio_manager.set_servo_pulsewidth(pin, value)
 
 """import RPi.GPIO as GPIO
 import time

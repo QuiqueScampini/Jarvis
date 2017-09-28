@@ -1,11 +1,9 @@
+from model.driver.CarDriver import CarDriver
 from threading import Thread
 from queue import Queue
 import time
 import logging
 import json
-
-from model.driver import CarDriver
-from model.util import JarvisManager
 
 
 class ProcessHandler(Thread):
@@ -52,5 +50,5 @@ class ProcessHandler(Thread):
         pass
 
     def process_movement(self, json_action):
-        CarDriver.CarDriver.move_car(json_action)
+        CarDriver.move_car(json_action)
         pass
