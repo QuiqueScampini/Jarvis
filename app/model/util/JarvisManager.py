@@ -1,4 +1,3 @@
-from model.comunication.MessageClient import MessageClient
 from model.comunication.MessageServer import MessageServer
 from model.worker.ProcessHandler import ProcessHandler
 
@@ -11,16 +10,14 @@ class JarvisManager:
 
     @classmethod
     def create_threads(cls):
-        cls.message_server = MessageServer(1)
-        cls.process_handler = ProcessHandler(2)
-        cls.message_client = MessageClient(3)
+        cls.message_server = MessageServer()
+        cls.process_handler = ProcessHandler()
         pass
 
     @classmethod
     def start_threads(cls):
         JarvisManager.message_server.start()
         JarvisManager.process_handler.start()
-        """JarvisManager.message_client.start()"""
         pass
 
     @classmethod
@@ -34,3 +31,12 @@ class JarvisManager:
         JarvisManager.message_server.join()
         JarvisManager.process_handler.join()
         pass
+
+    @classmethod
+    def add_to_process_queue(cls, message_str):
+        cls.process_handler.add_to_queue(message_str)
+        pass
+
+    @classmethod
+    def send_message(cls, message):
+        cls.message_server.send_message(message)

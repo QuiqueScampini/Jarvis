@@ -1,40 +1,36 @@
-#import pigpio
+import pigpio
 
 
 class JarvisGpio:
 
     #gpio_manager = pigpio.pi()
-    speed_Pin = 18
-    direction_Pin = 17
+    gpio_manager = None
+    speed_Pin = 15
+    direction_Pin = 14
 
     front_Echo_Left_Pin = 19
     front_Trig_Left_Pin = 26
 
     back_Echo_Left_Pin = 16
-    back_Trig_Left_Pin =20
+    back_Trig_Left_Pin = 20
 
-    front_Echo_Right_Pin = 19
-    front_Trig_Right_Pin = 26
+    front_Echo_Right_Pin = 27
+    front_Trig_Right_Pin = 22
 
-    back_Echo_Right_Pin = 16
-    back_Trig_Right_Pin =20
-
-    max_speed = 2000
-    min_speed = 700
-
-    max_left = 2000
-    max_right = 1000
+    back_Echo_Right_Pin = 23
+    back_Trig_Right_Pin = 24
 
     @classmethod
-    def set_speed(cls, speed_value):
-        if speed_value > cls.max_speed:
-            speed_value = cls.max_speed
-        elif speed_value < cls.min_speed:
-            speed_value = cls.min_speed
-        cls.set_servo_value(speed_value, cls.speed_Pin)
+    def set_speed(cls, new_speed):
+        cls.set_servo_value(new_speed, cls.speed_Pin)
 
     @classmethod
-    def set_direction(cls, direction_value):
+    def get_speed(cls):
+        cls.get_servo_value(cls.speed_Pin)
+
+    @classmethod
+    def set_direction(cls, angle):
+        direction_value = cls.get_gpio_direction(angle)
         if direction_value > cls.max_left:
             direction_value = cls.max_left
         elif direction_value < cls.max_right:
@@ -42,11 +38,34 @@ class JarvisGpio:
         cls.set_servo_value(direction_value, cls.direction_Pin)
 
     @classmethod
-    def set_servo_value(cls,value,pin):
-        cls.speed_Pin
-        #cls.gpio_manager.set_servo_pulsewidth(pin, value)
+    def set_servo_value(cls, value, pin):
+        cls.gpio_manager.set_servo_pulsewidth(pin, value)
 
-"""import RPi.GPIO as GPIO
+    @classmethod
+    def get_servo_value(cls, pin):
+        cls.gpio_manager.get_servo_pulsewidth(pin)
+
+    @classmethod
+    def get_gpio_direction(cls, angle):
+        return (angle*500)/100 + 1500
+
+"""
+Para los sensores
+pi.set_mode( 4, pigpio.INPUT)  # GPIO  4 as input
+pi.set_mode(17, pigpio.OUTPUT) # GPIO 17 as output
+pi.set_mode(24, pigpio.ALT2)   # GPIO 24 as ALT2
+pi1.write(4, 0) # set local Pi's GPIO 4 low
+pi2.write(4, 1) # set tom's GPIO 4 to high
+
+pi.set_servo_pulsewidth(17, 0)    # off
+pi.set_servo_pulsewidth(17, 1000) # safe anti-clockwise
+pi.set_servo_pulsewidth(17, 1500) # centre
+pi.set_servo_pulsewidth(17, 2000) # safe clockwise
+
+CUANDO CIERRO HACER UN 
+    gpio_manager.stop()
+    
+import RPi.GPIO as GPIO
 import time
 
 GPIO_OUT=14
