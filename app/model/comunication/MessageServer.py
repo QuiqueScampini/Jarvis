@@ -1,19 +1,16 @@
-from threading import Thread
-from model.util import Constant, JarvisManager
-from model.worker import ProcessHandler
 import socket
 import logging
+from threading import Thread
+from model.util.Constant import Constant
 
 
 class MessageServer(Thread):
-
-    def __init__(self, val):
+    def __init__(self):
         Thread.__init__(self)
         self.setName('MessageServer')
-        self.val = val
         self.active = False
         self.waiting_client = True
-        #Socket Definition
+        # Socket Definition
         self.message_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.message_socket.settimeout(Constant.MessageServerSocketTimeOut)
         self.message_socket.bind((Constant.MessageServerIP, Constant.MessageServerPort))
@@ -28,18 +25,18 @@ class MessageServer(Thread):
                 message = self.connection.recv(Constant.MessageServerBufferSize)
                 message_str = message.decode('utf-8')
                 if message:
-                    JarvisManager.process_handler.process_queue.put(message_str)
+                    JarvisManager.add_to_process_queue(message_str)
                     logging.debug('Message received' + message_str)
-                    self.connection.send(message)  # echo
+                    self.connection.send(message)
                 else:
                     break
         finally:
             if self.connection:
                 self.connection.close()
-        logging.info('Stop server receptor')
+        logging.info('Stop server Server')
 
     def accept_client(self):
-        logging.info('Start message receptor')
+        logging.info('Start message Server')
         while self.waiting_client:
             try:
                 self.connection, self.client_address = self.message_socket.accept()
