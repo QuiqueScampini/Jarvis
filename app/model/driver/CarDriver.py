@@ -1,29 +1,27 @@
-import logging
+from model.driver.CollisionDetector import CollisionDetector
 from model.gpio.JarvisGpio import JarvisGpio
 from model.error.JarvisException import JarvisException
 
 
 class CarDriver:
 
-    speed_step = 40
     min_backward = 1100
-    brake_speed = 1300
-    stop_speed = 1500
+    #max_backward = 700
     min_forward = 1600
+    #max_forward = 2000
+    speed_multiplier = 4
+    #brake_speed = 1300
+    stop_speed = 1500
 
-    # TODO Maybe Not necessary
-    max_forward = 2000
-    max_backward = 700
-
-    max_left = 1000
-
-    max_right = 1700
+    #max_left = 1100
+    middle = 1350
+    #max_right = 1600
+    turn_dif = 250
 
     @classmethod
-    def process_movement(cls,movement_json):
-        logging.info('Move Car')
-        CarDriver.set_angle(cls.get_property(movement_json, 'angle'))
-        CarDriver.process_speed_move(cls.get_property(movement_json, 'power'))
+    def process_movement(cls, movement_json):
+        cls.process_direction_move(cls.get_property(movement_json, 'angle'))
+        cls.process_speed_move(cls.get_property(movement_json, 'power'))
 
     @classmethod
     def get_property(cls, json, json_property):
@@ -33,40 +31,45 @@ class CarDriver:
     @classmethod
     def process_speed_move(cls, speed):
         cls.validate_new_speed(speed)
-        new_speed = cls.get_gpio_speed(speed)
-
-        if cls.get_speed() != new_speed:
-            JarvisGpio.set_speed(speed)
-            logging.info('New Speed' + speed)
-        else:
-            logging.info('Not necessary to change Speed')
-        pass
+        JarvisGpio.set_speed(cls.get_gpio_speed(speed))
 
     """Received speed is checked to be between -100 and 100"""
     @classmethod
     def validate_new_speed(cls, speed):
-        if speed in range(-100, 100):
+        if not(speed in range(-100, 101)):
             raise JarvisException('New speed ' + str(speed) + ' out of range [-100, 100]')
 
     @classmethod
     def get_gpio_speed(cls, speed):
         if speed == 0:
             return cls.stop_speed
-
-        base_speed = cls.min_forward if speed > 0 else cls.min_backward
-        return base_speed + int(speed/10) * cls.speed_step
+        elif speed > 0:
+            return cls.get_gpio_speed(CollisionDetector.can_go_forward, cls.min_forward, speed)
+        else:
+            return cls.get_gpio_speed(CollisionDetector.can_go_backward, cls.min_backward, speed)
 
     @classmethod
-    def get_speed(cls):
-        return JarvisGpio.get_speed()
-
+    def get_gpio_speed(cls, collision_detected, base_gpio_value, speed):
+        if collision_detected:
+            return int(base_gpio_value + (cls.speed_multiplier * speed))
+        else:
+            return cls.stop_speed
     """End Speed Shit methods"""
 
     """Start direction Shit methods"""
+    @classmethod
+    def process_direction_move(cls, angle):
+        cls.validate_direction(angle)
+        JarvisGpio.set_direction(cls.get_gpio_direction(angle))
 
     @classmethod
-    def set_angle(cls, angle):
-        JarvisGpio.set_direction(angle)
-        logging.info('Turning ' + angle)
+    def validate_direction(cls, angle):
+        if not (angle in range(-100, 101)):
+            raise JarvisException('Turn Value ' + str(angle) + ' out of range [-100, 100]')
 
+    @classmethod
+    def get_gpio_direction(cls, angle):
+        return int(cls.middle + ((cls.turn_dif * angle) / 100))
     """End direction Shit methods"""
+
+

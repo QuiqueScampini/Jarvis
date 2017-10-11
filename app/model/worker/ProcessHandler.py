@@ -1,4 +1,3 @@
-import time
 import logging
 import json
 from threading import Thread
@@ -20,17 +19,15 @@ class ProcessHandler(Thread):
     def run(self):
         logging.info('Start handling messages')
         while self.active:
-            if not self.process_queue.empty():
-                """TODO El True en get hace que sea bloqueante
-                message = self.process_queue.get(True)"""
-                message = self.process_queue.get()
-                if message:
-                    self.process_message(message)
-                    logging.debug('Getting ' + str(message)
-                                             + ' : '
-                                             + str(self.process_queue.qsize())
-                                             + ' items in queue')
-            time.sleep(0.2)
+            logging.info('Waiting Message')
+            message = self.process_queue.get(True)
+            if message:
+                logging.info('Processing message')
+                self.process_message(message)
+                logging.debug('Getting ' + str(message)
+                    + ' : '
+                    + str(self.process_queue.qsize())
+                    + ' items in queue')
 
     def stop(self):
         self.active = False
@@ -42,8 +39,8 @@ class ProcessHandler(Thread):
         try:
             json_action = json.loads(message)
         except Exception as error:
-            JarvisManager.send_message('{"messageType": 9,"message": "mensaje","stackTrace": "'
-                                       + str(error) + '"}')
+            logging.error('{"messageType": 9,"message": "mensaje","stackTrace": "'
+                          + str(error) + '"}')
             return
 
         message_type = json_action["messageType"]
