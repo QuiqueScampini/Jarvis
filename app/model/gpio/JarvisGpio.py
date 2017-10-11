@@ -1,10 +1,11 @@
+import logging
 import pigpio
 
 
 class JarvisGpio:
 
-    #gpio_manager = pigpio.pi()
-    gpio_manager = None
+    gpio_manager = pigpio.pi()
+    #gpio_manager = None
     speed_Pin = 15
     direction_Pin = 14
 
@@ -25,29 +26,14 @@ class JarvisGpio:
         cls.set_servo_value(new_speed, cls.speed_Pin)
 
     @classmethod
-    def get_speed(cls):
-        cls.get_servo_value(cls.speed_Pin)
-
-    @classmethod
-    def set_direction(cls, angle):
-        direction_value = cls.get_gpio_direction(angle)
-        if direction_value > cls.max_left:
-            direction_value = cls.max_left
-        elif direction_value < cls.max_right:
-            direction_value = cls.max_right
-        cls.set_servo_value(direction_value, cls.direction_Pin)
+    def set_direction(cls, new_turn):
+        cls.set_servo_value(new_turn, cls.direction_Pin)
 
     @classmethod
     def set_servo_value(cls, value, pin):
+        logging.info('Setting Value ' + str(value) + ' to pin ' + str(pin))
         cls.gpio_manager.set_servo_pulsewidth(pin, value)
 
-    @classmethod
-    def get_servo_value(cls, pin):
-        cls.gpio_manager.get_servo_pulsewidth(pin)
-
-    @classmethod
-    def get_gpio_direction(cls, angle):
-        return (angle*500)/100 + 1500
 
 """
 Para los sensores
