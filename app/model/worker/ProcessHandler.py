@@ -46,7 +46,9 @@ class ProcessHandler(Thread):
         message_type = json_action["messageType"]
 
         if message_type == "1":
+            """Movement"""
             CarDriver.process_movement(json_action)
-        elif message_type == "6":
-            logging.info('Llego 6')
+        elif message_type == "12":
+            """Stop"""
+            CarDriver.stop()
         pass

@@ -1,5 +1,6 @@
 import logging
 import pigpio
+import time
 
 
 class JarvisGpio:
@@ -26,14 +27,54 @@ class JarvisGpio:
         cls.set_servo_value(new_speed, cls.speed_Pin)
 
     @classmethod
+    def get_speed(cls):
+        cls.get_servo_value(cls.speed_Pin)
+
+    @classmethod
     def set_direction(cls, new_turn):
         cls.set_servo_value(new_turn, cls.direction_Pin)
+
+    @classmethod
+    def get_direction(cls):
+        cls.get_servo_value(cls.direction_Pin)
 
     @classmethod
     def set_servo_value(cls, value, pin):
         logging.info('Setting Value ' + str(value) + ' to pin ' + str(pin))
         cls.gpio_manager.set_servo_pulsewidth(pin, value)
 
+    @classmethod
+    def get_servo_value(cls, pin):
+        try:
+            cls.gpio_manager.get_servo_pulsewidth(pin)
+        except Exception:
+            return 0
+
+    @classmethod
+    def get_left_front_distance(cls):
+        pass
+
+    @classmethod
+    def get_right_front_distance(cls):
+        pass
+
+    @classmethod
+    def get_left_back_distance(cls):
+        pass
+
+    @classmethod
+    def get_right_back_distance(cls):
+        pass
+
+    @classmethod
+    def get_distance(cls, echo_pin, trigger_pin):
+        """cls.gpio_manager.set_mode(echo_pin, pigpio.INPUT)
+
+        cls.gpio_manager.write(trigger_pin, 1)
+        time.sleep(0.00001)
+        cls.gpio_manager.write(trigger_pin, 0)"""
+
+        pass
 
 """
 Para los sensores
@@ -92,11 +133,5 @@ def changeDirection(newVoltaje):
 	newDutyCycle=float("{0:.2f}".format(getDutyCycle(float(newVoltaje))))
 	directionObject.ChangeDutyCycle(newDutyCycle)
 	print "Duty Cycle Change to ", newDutyCycle, " with Voltaje", newVoltaje
+"""
 
-def on():
-	print "LED on"
-	GPIO.output(GPIO_OUT,GPIO.HIGH)
-
-def off():
-	print "LED off"
-	GPIO.output(GPIO_OUT,GPIO.LOW)"""
