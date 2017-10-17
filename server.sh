@@ -3,7 +3,8 @@
 workdir=`pwd`/app
  
 start() {
-    python3 -u Jarvis.py &
+	echo "Starting Server - `date '+%d/%m/%Y %H:%M:%S'`"
+    python3 -u Jarvis.py
     echo "Server started."
 }
  
@@ -12,6 +13,7 @@ stop() {
     echo $pid
     kill $pid
     sleep 2
+	echo "Stopping Server - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "Server killed."
 }
 

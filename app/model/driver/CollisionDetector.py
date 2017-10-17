@@ -8,7 +8,7 @@ from model.util.JarvisManager import JarvisManager
 
 class CollisionDetector(Thread):
 
-    distance_to_stop = 0.5
+    distance_to_stop = 50
     can_go_forward = True
     can_go_backward = True
 
@@ -19,14 +19,14 @@ class CollisionDetector(Thread):
 
     def run(self):
         while self.active:
-            logging.info('Detecting collisions and shit')
             actual_speed = JarvisGpio.get_speed()
-            CollisionDetector.can_go_forward = self.get_movement_feasibility(self.get_left_front_distance(),
-                                                                             self.get_right_front_distance(),
+            CollisionDetector.can_go_forward = self.get_movement_feasibility(self.get_front_left_distance(),
+                                                                             self.get_front_right_distance(),
                                                                              self.moving_forward(actual_speed))
-            CollisionDetector.can_go_backward = self.get_movement_feasibility(self.get_back_distance(),
+            CollisionDetector.can_go_backward = self.get_movement_feasibility(self.get_back_left_distance(),
+                                                                              self.get_back_right_distance(),
                                                                               self.moving_backward(actual_speed))
-            sleep(0.1)
+            sleep(0.3)
         pass
 
     def stop(self):
@@ -37,20 +37,20 @@ class CollisionDetector(Thread):
         return '{"messageType": 12}'
 
     @staticmethod
-    def get_left_front_distance():
-        return JarvisGpio.get_left_front_distance()
+    def get_front_left_distance():
+        return JarvisGpio.get_front_left_distance()
 
     @staticmethod
-    def get_right_front_distance():
-            return JarvisGpio.get_right_front_distance()
+    def get_front_right_distance():
+            return JarvisGpio.get_front_right_distance()
 
     @staticmethod
-    def get_left_back_distance():
-        return JarvisGpio.get_left_back_distance()
+    def get_back_left_distance():
+        return JarvisGpio.get_back_left_distance()
 
     @staticmethod
-    def get_right_back_distance():
-        return JarvisGpio.get_right_back_distance()
+    def get_back_right_distance():
+        return JarvisGpio.get_back_right_distance()
 
     @staticmethod
     def moving_forward(actual_speed):

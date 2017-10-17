@@ -48,7 +48,7 @@ class ProcessHandler(Thread):
         if message_type == "1":
             """Movement"""
             CarDriver.process_movement(json_action)
-        elif message_type == "12":
+        elif message_type == 12:
             """Stop"""
             CarDriver.stop()
         pass
