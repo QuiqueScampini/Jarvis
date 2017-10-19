@@ -7,20 +7,20 @@ class JarvisGpio:
 
     gpio_manager = pigpio.pi()
     #gpio_manager = pigpio.pi('192.168.0.15')
-    speed_Pin = 15
+    speed_Pin = 18
     direction_Pin = 14
 
     front_Echo_Left_Pin = 19
     front_Trig_Left_Pin = 26
 
-    back_Echo_Left_Pin = 16
-    back_Trig_Left_Pin = 20
+    front_Echo_Right_Pin = 3
+    front_Trig_Right_Pin = 4
 
-    front_Echo_Right_Pin = 27
-    front_Trig_Right_Pin = 22
+    back_Trig_Left_Pin = 16
+    back_Echo_Left_Pin = 20
 
-    back_Echo_Right_Pin = 24
     back_Trig_Right_Pin = 23
+    back_Echo_Right_Pin = 24
 
     @classmethod
     def set_speed(cls, new_speed):
