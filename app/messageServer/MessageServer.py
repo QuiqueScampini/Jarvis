@@ -1,15 +1,15 @@
 import socket
 import logging
 from threading import Thread
-
-from model.util.Constant import Constant
-from model.util.JarvisManager import JarvisManager
+from util.Constant import Constant
 
 
 class MessageServer(Thread):
-    def __init__(self):
+
+    def __init__(self, process_queue):
         Thread.__init__(self)
         self.setName('MessageServer')
+        self.process_queue = process_queue
         self.active = False
         self.waiting_client = True
         # Socket Definition
@@ -27,8 +27,8 @@ class MessageServer(Thread):
                 message = self.connection.recv(Constant.MessageServerBufferSize)
                 message_str = message.decode('utf-8')
                 if message:
-                    JarvisManager.add_to_process_queue(message_str)
                     logging.debug('Message received ' + message_str)
+                    self.process_queue.put(message_str)
                     self.connection.send(message)
                 else:
                     break

@@ -1,3 +1,0 @@
-
-class JarvisException(Exception):
-    pass
