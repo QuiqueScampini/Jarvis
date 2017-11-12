@@ -1,7 +1,14 @@
+from error.JarvisException import JarvisException
 from gpio.JarvisGpioDriver import JarvisGpioDriver
 
 
 class CarDriver:
+
+    free_front_left = True
+    free_front_right = True
+
+    free_back_left = True
+    free_back_right = True
 
     backward = 1100
     forward = 1600
@@ -38,31 +45,29 @@ class CarDriver:
 
     @classmethod
     def get_gpio_speed(cls, speed):
-        if 10 > speed > -10:
-            return Constant.stop_speed
+        if 15 > speed > -15:
+            return cls.stop
         elif speed > 0:
-            return cls.get_gpio_speed_with_parameters(CollisionDetector.free_front_left,
-                                                      CollisionDetector.free_front_right,
-                                                      Constant.min_forward,
-                                                      1,
-                                                      speed)
+            return cls.get_gpio_speed_with_parameters(cls.free_front_left,
+                                                      cls.free_front_right,
+                                                      cls.forward,
+                                                      1)
         else:
-            return cls.get_gpio_speed_with_parameters(CollisionDetector.free_back_left,
-                                                      CollisionDetector.free_back_right,
-                                                      Constant.min_backward,
-                                                      3,
-                                                      speed)
+            return cls.get_gpio_speed_with_parameters(cls.free_back_left,
+                                                      cls.free_back_right,
+                                                      cls.backward,
+                                                      3)
 
     @classmethod
-    def get_gpio_speed_with_parameters(cls, left_free_way, right_free_way, base_gpio_value, base_sensor, speed):
+    def get_gpio_speed_with_parameters(cls, left_free_way, right_free_way, gpio_value, base_sensor):
         if not left_free_way:
             CollisionDetector.inform_imposibility_to_move(base_sensor)
-            return Constant.stop_speed
+            return cls.stop
         if not right_free_way:
             CollisionDetector.inform_imposibility_to_move(base_sensor + 1)
-            return Constant.stop_speed
+            return cls.stop
 
-        return int(base_gpio_value + (Constant.speed_multiplier * speed))
+        return gpio_value
     """End Speed Shit methods"""
 
     """Start direction Shit methods"""
@@ -78,7 +83,7 @@ class CarDriver:
 
     @classmethod
     def get_gpio_direction(cls, angle):
-        return int(Constant.middle_direction + ((Constant.turn_dif * angle) / 100))
+        return int(cls.middle_direction + ((cls.turn_dif * angle) / 100))
     """End direction Shit methods"""
 
     @classmethod
