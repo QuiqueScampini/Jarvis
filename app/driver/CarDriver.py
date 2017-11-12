@@ -61,10 +61,10 @@ class CarDriver:
     @classmethod
     def get_gpio_speed_with_parameters(cls, left_free_way, right_free_way, gpio_value, base_sensor):
         if not left_free_way:
-            CollisionDetector.inform_imposibility_to_move(base_sensor)
+            cls.send_message_obstacle_detected(base_sensor)
             return cls.stop
         if not right_free_way:
-            CollisionDetector.inform_imposibility_to_move(base_sensor + 1)
+            cls.send_message_obstacle_detected(base_sensor + 1)
             return cls.stop
 
         return gpio_value
@@ -87,5 +87,6 @@ class CarDriver:
     """End direction Shit methods"""
 
     @classmethod
-    def send_message_obstacle_detected(cls, direction_base_sensor):
+    def send_message_obstacle_detected(cls, sensor):
+        #TODO Send message
         pass

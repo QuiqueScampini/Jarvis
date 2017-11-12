@@ -42,7 +42,7 @@ class ProcessHandler(Thread):
 
         if message_type == "1":
             """Movement"""
-            # CarDriver.process_movement(json["angle"],json["power"])
+            CarDriver.process_movement(json["angle"], json["power"])
         elif message_type == 12:
             """Stop"""
             logging.info('The mother fucker told me to stop')
