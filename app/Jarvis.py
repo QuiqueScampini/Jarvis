@@ -14,7 +14,7 @@ class Jarvis:
         self.message_server = MessageServer(self.process_queue)
         self.sensors_reader = SensorsReader(self.process_queue)
         """CONSUMER"""
-        self.process_handler = ProcessHandler(self.process_queue)
+        self.process_handler = ProcessHandler(self.process_queue, self.message_server)
 
         self.start()
 

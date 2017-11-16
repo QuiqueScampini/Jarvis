@@ -4,6 +4,8 @@ from gpio.JarvisGpioDriver import JarvisGpioDriver
 
 class CarDriver:
 
+    message_server = None
+
     free_front_left = True
     free_front_right = True
 
@@ -60,14 +62,12 @@ class CarDriver:
 
     @classmethod
     def get_gpio_speed_with_parameters(cls, left_free_way, right_free_way, gpio_value, base_sensor):
-        if not left_free_way:
-            cls.send_message_obstacle_detected(base_sensor)
-            return cls.stop
-        if not right_free_way:
-            cls.send_message_obstacle_detected(base_sensor + 1)
-            return cls.stop
+        if left_free_way and right_free_way:
+            return gpio_value
 
-        return gpio_value
+        cls.send_message_obstacle_detected(base_sensor)
+        return cls.stop
+
     """End Speed Shit methods"""
 
     """Start direction Shit methods"""
@@ -88,5 +88,21 @@ class CarDriver:
 
     @classmethod
     def send_message_obstacle_detected(cls, sensor):
-        #TODO Send message
+        cls.message_server.send_message(cls.obstacle_detected_message(sensor))
         pass
+
+    @classmethod
+    def obstacle_detected_message(cls, sensor_id):
+        return '{"messageType": 6, "side": ' + str(sensor_id) + '}@'
+
+    @classmethod
+    def set_sensor_values(cls, front_left, front_right, back_left, back_right):
+        cls.free_front_left = front_left
+        cls.free_front_right = front_right
+        cls.free_back_left = back_left
+        cls.free_back_right = back_right
+
+        speed = JarvisGpioDriver.get_speed()
+        if (speed == cls.forward and (not cls.free_front_left or not cls.free_front_right)) or \
+                (speed == cls.backward and (not cls.free_back_left or not cls.free_back_right)):
+            cls.stop()
