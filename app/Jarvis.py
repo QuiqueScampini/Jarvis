@@ -52,7 +52,6 @@ class Jarvis:
 if __name__ == '__main__':
     jarvisInstance = Jarvis()
     jarvisInstance.start()
-    #jarvisInstance.stop_children()
     jarvisInstance.wait_joins()
     logging.debug('End')
 
