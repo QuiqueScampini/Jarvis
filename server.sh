@@ -3,6 +3,7 @@
 workdir=`pwd`/app
  
 start() {
+    mv Jarvis.log Jarvis.old.log
 	echo "Starting mjpg_streamer - `date '+%d/%m/%Y %H:%M:%S'`"
 	/usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /usr/local/www -p 8090" &
 	echo "mjpg_streamer Started - `date '+%d/%m/%Y %H:%M:%S'`"
