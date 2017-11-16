@@ -44,10 +44,13 @@ class ProcessHandler(Thread):
 
         if message_type == "1":
             """Movement"""
-            CarDriver.process_movement(json["angle"], json["power"])
+            CarDriver.process_movement(json_action["angle"], json_action["power"])
         elif message_type == 12:
             """Stop"""
             logging.info('The mother fucker told me to stop')
             CarDriver.stop()
         elif message_type == 13:
-            CarDriver.set_sensor_values(json["front_left"], json["front_right"], json["back_left"], json["back_right"])
+            CarDriver.set_sensor_values(json_action["front_left"],
+                                        json_action["front_right"],
+                                        json_action["back_left"],
+                                        json_action["back_right"])
