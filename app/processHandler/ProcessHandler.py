@@ -50,4 +50,5 @@ class ProcessHandler(Thread):
             logging.info('The mother fucker told me to stop')
             CarDriver.stop()
         elif message_type == 13:
+            logging.info('Message 13')
             CarDriver.set_sensor_values(json["front_left"], json["front_right"], json["back_left"], json["back_right"])
