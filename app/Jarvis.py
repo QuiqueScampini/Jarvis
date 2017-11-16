@@ -16,8 +16,6 @@ class Jarvis:
         """CONSUMER"""
         self.process_handler = ProcessHandler(self.process_queue, self.message_server)
 
-        self.start()
-
     @staticmethod
     def configure_log():
         logging.basicConfig(
@@ -29,15 +27,25 @@ class Jarvis:
         logging.info('Starting Jarvis')
         logging.info('Starting SensorsReader')
         self.sensors_reader.start()
+        logging.info('Starting MessageServer')
+        self.message_server.start()
+        logging.info('Starting ProcessHandler')
+        self.process_handler.start()
 
     def stop_children(self):
         logging.debug('Stopping Jarvis')
         logging.debug('Stopping SensorsReader')
         self.sensors_reader.stop()
+        logging.info('Stopping MessageServer')
+        self.message_server.stop()
+        logging.info('Stopping ProcessHandler')
+        self.process_handler.stop()
 
     def wait_joins(self):
         logging.debug('Waiting Joins')
         self.sensors_reader.join()
+        self.message_server.join()
+        self.process_handler.join()
         pass
 
 
