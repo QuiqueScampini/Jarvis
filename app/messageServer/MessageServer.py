@@ -41,12 +41,14 @@ class MessageServer(Thread):
         logging.info('Start message Server')
         while self.waiting_client:
             try:
+                logging.info('Client not Found')
                 self.connection, self.client_address = self.message_socket.accept()
                 logging.info('Client Connected ' + self.client_address[0])
                 self.active = True
                 self.waiting_client = False
                 break
             except socket.timeout:
+                logging.info('Ohhh damn! Timeout')
                 pass
 
     def stop(self):
