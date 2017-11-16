@@ -1,3 +1,4 @@
+import logging
 from error.JarvisException import JarvisException
 from gpio.JarvisGpioDriver import JarvisGpioDriver
 
@@ -97,6 +98,7 @@ class CarDriver:
 
     @classmethod
     def set_sensor_values(cls, front_left, front_right, back_left, back_right):
+        logging.info('Puto el que lee')
         cls.free_front_left = front_left
         cls.free_front_right = front_right
         cls.free_back_left = back_left
