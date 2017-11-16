@@ -1,5 +1,5 @@
 import time
-from JarvisGpio import JarvisGpio
+from .JarvisGpio import JarvisGpio
 
 
 class JarvisGpioSensors(JarvisGpio):

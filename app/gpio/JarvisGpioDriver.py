@@ -1,4 +1,4 @@
-from JarvisGpio import JarvisGpio
+from .JarvisGpio import JarvisGpio
 
 
 class JarvisGpioDriver(JarvisGpio):
