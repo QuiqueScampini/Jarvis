@@ -5,10 +5,11 @@ from driver.CarDriver import CarDriver
 
 
 class ProcessHandler(Thread):
-    def __init__(self, process_queue, message_server):
+    def __init__(self, process_queue, message_server, jarvis):
         Thread.__init__(self)
         self.setName('ProcessHandler')
         self.active = True
+        self.jarvis = jarvis
         self.process_queue = process_queue
         self.message_server = message_server
         CarDriver.message_server = message_server
@@ -35,21 +36,22 @@ class ProcessHandler(Thread):
         try:
             self.process_json_action(json.loads(message))
         except Exception as error:
-            logging.error('{"messageType": 9,"message": ' + message + ' ,"stackTrace": "'
-                          + str(error) + '"}')
+            logging.error(str(error))
 
-    @staticmethod
-    def process_json_action(json_action):
+    def process_json_action(self, json_action):
         message_type = json_action["messageType"]
 
-        if message_type == "1":
-            """Movement"""
+        if message_type == 0:  # Start Driving
+            """Start Driving"""
+            self.jarvis.start_driving()
+        elif message_type == "1":  # Movement
             CarDriver.process_movement(json_action["angle"], json_action["power"])
-        elif message_type == 12:
-            """Stop"""
-            logging.info('The mother fucker told me to stop')
-            CarDriver.stop()
-        elif message_type == 13:
+        elif message_type == 3:  # Auto Return
+            # TODO Call Ultron
+            pass
+        elif message_type == 4:  # Shutdown
+            self.jarvis.stop()
+        elif message_type == 12:  # Sensors Values
             CarDriver.set_sensor_values(json_action["front_left"],
                                         json_action["front_right"],
                                         json_action["back_left"],

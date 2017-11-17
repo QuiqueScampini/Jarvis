@@ -6,11 +6,11 @@ class CarDriver:
 
     message_server = None
 
-    free_front_left = True
-    free_front_right = True
+    free_front_left = False
+    free_front_right = False
 
-    free_back_left = True
-    free_back_right = True
+    free_back_left = False
+    free_back_right = False
 
     backward = 1100
     forward = 1600

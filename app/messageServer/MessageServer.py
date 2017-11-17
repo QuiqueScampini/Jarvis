@@ -21,20 +21,14 @@ class MessageServer(Thread):
         self.client_address = None
 
     def run(self):
-        try:
-            self.accept_client()
-            while self.active:
-                message = self.connection.recv(Constant.MessageServerBufferSize)
-                message_str = message.decode('utf-8')
-                if message:
-                    logging.debug('Message received ' + message_str)
-                    self.process_queue.put(message_str)
-                    self.connection.send(message)
-                else:
-                    break
-        finally:
-            if self.connection:
-                self.connection.close()
+        while self.active:
+            try:
+                self.accept_client()
+                while self.connection:
+                    self.receive_messages()
+            finally:
+                if self.connection:
+                    self.connection.close()
         logging.info('Stop server Server')
 
     def accept_client(self):
@@ -49,12 +43,21 @@ class MessageServer(Thread):
             except socket.timeout:
                 pass
 
+    def receive_messages(self):
+        message = self.connection.recv(Constant.MessageServerBufferSize)
+        message_str = message.decode('utf-8')
+        if message:
+            logging.debug('Message received ' + message_str)
+            self.process_queue.put(message_str)
+            self.connection.send(message)
+
     def stop(self):
         if self.waiting_client:
             self.waiting_client = False
         else:
             self.active = False
             self.message_socket.shutdown(socket.SHUT_WR)
+            self.connection = None
 
     def send_message(self, message):
         self.connection.send(message.encode())

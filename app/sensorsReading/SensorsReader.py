@@ -14,13 +14,13 @@ class SensorsReader(Process):
     def run(self):
         while self.active:
             self.process_queue.put(self.feasibility_message())
-            sleep(0.1)
+            sleep(0.2)
 
     def stop(self):
         self.active = False
 
     def feasibility_message(self):
-        return '{"messageType": 13' + \
+        return '{"messageType": 12' + \
                ', "front_left": ' + str(self.front_left()).lower() + \
                ', "front_right": ' + str(self.front_right()).lower() + \
                ', "back_left": ' + str(self.back_left()).lower() + \
