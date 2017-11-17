@@ -10,7 +10,7 @@ class MessageServer(Thread):
         Thread.__init__(self)
         self.setName('MessageServer')
         self.process_queue = process_queue
-        self.active = False
+        self.active = True
         self.waiting_client = True
         # Socket Definition
         self.message_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,15 +24,15 @@ class MessageServer(Thread):
         while self.active:
             try:
                 self.accept_client()
-                while self.connection:
+                while self.active:
                     self.receive_messages()
             except socket.timeout:
-                #  We Assume client disconnected
+                self.waiting_client = True
                 pass
             finally:
                 if self.connection:
                     self.connection.close()
-        logging.info('Stop server Server')
+        logging.info('Stop MessageServer')
 
     def accept_client(self):
         logging.info('Start message Server')
@@ -40,7 +40,6 @@ class MessageServer(Thread):
             try:
                 self.connection, self.client_address = self.message_socket.accept()
                 logging.info('Client Connected ' + self.client_address[0])
-                self.active = True
                 self.waiting_client = False
                 break
             except socket.timeout:
@@ -56,10 +55,10 @@ class MessageServer(Thread):
             self.connection.send(message)
 
     def stop(self):
+        self.active = False
         if self.waiting_client:
             self.waiting_client = False
         else:
-            self.active = False
             self.message_socket.shutdown(socket.SHUT_WR)
             self.connection = None
 
