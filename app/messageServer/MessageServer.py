@@ -44,9 +44,10 @@ class MessageServer(Thread):
                 pass
 
     def receive_messages(self):
+        logging.info('Waiting message')
         message = self.connection.recv(Constant.MessageServerBufferSize)
-        message_str = message.decode('utf-8')
         if message:
+            message_str = message.decode('utf-8')
             logging.debug('Message received ' + message_str)
             self.process_queue.put(message_str)
             self.connection.send(message)
