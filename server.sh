@@ -1,6 +1,8 @@
 #!/bin/bash
 
-WORK_DIR=`pwd`/app
+
+WORK_DIR=`pwd`
+JARVIS_HOME=${WORK_DIR}/app
 JARVIS_LOG=${WORK_DIR}/Jarvis.log
 JARVIS_OLD_LOG=${WORK_DIR}/Jarvis.old.log
  
@@ -38,7 +40,7 @@ stop() {
     echo "pigpiod killed."
 }
 
-cd ${WORK_DIR}
+cd ${JARVIS_HOME}
 
 case "$1" in
   start)
