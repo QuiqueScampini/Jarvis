@@ -26,6 +26,9 @@ class MessageServer(Thread):
                 self.accept_client()
                 while self.connection:
                     self.receive_messages()
+            except socket.timeout:
+                #  We Assume client disconnected
+                pass
             finally:
                 if self.connection:
                     self.connection.close()
@@ -45,7 +48,7 @@ class MessageServer(Thread):
 
     def receive_messages(self):
         logging.info('Waiting message')
-        message = self.connection.recv(Constant.MessageServerBufferSize)
+        message = self.connection.recv(Constant.MessageServerBufferSize, Constant.MessageServerClientTimeOut)
         if message:
             message_str = message.decode('utf-8')
             logging.debug('Message received ' + message_str)
