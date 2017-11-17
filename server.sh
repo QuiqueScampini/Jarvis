@@ -1,9 +1,11 @@
 #!/bin/bash
 
-workdir=`pwd`/app
+WORK_DIR=`pwd`/app
+JARVIS_LOG=${WORK_DIR}/Jarvis.log
+JARVIS_OLD_LOG=${WORK_DIR}/Jarvis.old.log
  
 start() {
-    mv Jarvis.log Jarvis.old.log
+    mv ${JARVIS_LOG} ${JARVIS_OLD_LOG}
     echo "Starting mjpg_streamer - `date '+%d/%m/%Y %H:%M:%S'`"
     /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /usr/local/www -p 8090" &
     echo "mjpg_streamer Started - `date '+%d/%m/%Y %H:%M:%S'`"
@@ -36,7 +38,7 @@ stop() {
     echo "pigpiod killed."
 }
 
-cd $workdir
+cd ${WORK_DIR}
 
 case "$1" in
   start)
