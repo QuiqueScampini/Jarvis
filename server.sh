@@ -4,7 +4,7 @@
 WORK_DIR=`pwd`
 JARVIS_HOME=${WORK_DIR}/app
 JARVIS_LOG=${WORK_DIR}/Jarvis.log
-JARVIS_OLD_LOG=${WORK_DIR}/Jarvis.old.log
+JARVIS_OLD_LOG=${WORK_DIR}/old.Jarvis.log
  
 start() {
     mv ${JARVIS_LOG} ${JARVIS_OLD_LOG}
