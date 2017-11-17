@@ -21,6 +21,7 @@ class MessageServer(Thread):
         self.client_address = None
 
     def run(self):
+        logging.info('Start message Server')
         while self.active:
             try:
                 self.accept_client()
@@ -28,14 +29,15 @@ class MessageServer(Thread):
                     self.receive_messages()
             except socket.timeout:
                 self.waiting_client = True
-                pass
+                logging.info('Client Socket Timeout')
             finally:
                 if self.connection:
+                    logging.info('Closing connection')
                     self.connection.close()
         logging.info('Stop MessageServer')
 
     def accept_client(self):
-        logging.info('Start message Server')
+        logging.info('Waiting new Client')
         while self.waiting_client:
             try:
                 self.connection, self.client_address = self.message_socket.accept()
