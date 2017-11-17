@@ -21,20 +21,20 @@ class SensorsReader(Process):
 
     def feasibility_message(self):
         return '{"messageType": 12' + \
-               ', "front_left": ' + str(self.front_left()).lower() + \
-               ', "front_right": ' + str(self.front_right()).lower() + \
-               ', "back_left": ' + str(self.back_left()).lower() + \
-               ', "back_right": ' + str(self.back_right()).lower() + \
+               ', "free_front_left": ' + str(self.free_front_left()).lower() + \
+               ', "free_front_right": ' + str(self.free_front_right()).lower() + \
+               ', "free_back_left": ' + str(self.free_back_left()).lower() + \
+               ', "free_back_right": ' + str(self.free_back_right()).lower() + \
                '}@'
 
-    def front_left(self):
-        return JarvisGpioSensors.get_front_left_distance() < self.distance_to_stop
+    def free_front_left(self):
+        return JarvisGpioSensors.get_front_left_distance() > self.distance_to_stop
 
-    def front_right(self):
-        return JarvisGpioSensors.get_front_right_distance() < self.distance_to_stop
+    def free_front_right(self):
+        return JarvisGpioSensors.get_front_right_distance() > self.distance_to_stop
 
-    def back_left(self):
-        return JarvisGpioSensors.get_back_left_distance() < self.distance_to_stop
+    def free_back_left(self):
+        return JarvisGpioSensors.get_back_left_distance() > self.distance_to_stop
 
-    def back_right(self):
-        return JarvisGpioSensors.get_back_right_distance() < self.distance_to_stop
+    def free_back_right(self):
+        return JarvisGpioSensors.get_back_right_distance() > self.distance_to_stop
