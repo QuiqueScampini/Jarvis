@@ -39,6 +39,7 @@ class MessageServer(Thread):
         while self.waiting_client:
             try:
                 self.connection, self.client_address = self.message_socket.accept()
+                self.connection.settimeout(Constant.MessageServerClientTimeOut)
                 logging.info('Client Connected ' + self.client_address[0])
                 self.waiting_client = False
                 break
@@ -47,7 +48,7 @@ class MessageServer(Thread):
 
     def receive_messages(self):
         logging.info('Waiting message')
-        message = self.connection.recv(Constant.MessageServerBufferSize, Constant.MessageServerClientTimeOut)
+        message = self.connection.recv(Constant.MessageServerBufferSize)
         if message:
             message_str = message.decode('utf-8')
             logging.debug('Message received ' + message_str)
