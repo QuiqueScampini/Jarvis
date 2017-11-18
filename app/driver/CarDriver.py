@@ -27,7 +27,7 @@ class CarDriver:
 
     @classmethod
     def stop(cls):
-        JarvisGpioDriver.set_speed(cls.brake_speed)
+        JarvisGpioDriver.set_speed(cls.stop_speed)
 
     @classmethod
     def get_property(cls, json, json_property):
