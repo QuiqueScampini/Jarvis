@@ -29,12 +29,13 @@ class Jarvis:
         self.message_server.start()
         logging.info('Starting ProcessHandler')
         self.process_handler.start()
-        # TODO Remove this line
-        self.start_driving()
-
-    def start_driving(self):
         logging.info('Starting SensorsReader')
         self.sensors_reader.start()
+
+    def start_driving(self):
+        # TODO start FILMING
+        logging.info('Starting FILMING THIS SHIT')
+        pass
 
     def start_stitching(self):
         # TODO Send this shit to stitch the video and inform it's Done
