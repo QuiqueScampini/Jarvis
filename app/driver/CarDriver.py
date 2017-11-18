@@ -14,8 +14,8 @@ class CarDriver:
 
     backward = 1100
     forward = 1600
-    brake = 1300
-    stop = 1500
+    brake_speed = 1300
+    stop_speed = 1500
 
     middle_direction = 1350
     turn_dif = 250
@@ -27,7 +27,7 @@ class CarDriver:
 
     @classmethod
     def stop(cls):
-        JarvisGpioDriver.set_speed(cls.brake)
+        JarvisGpioDriver.set_speed(cls.brake_speed)
 
     @classmethod
     def get_property(cls, json, json_property):
@@ -48,7 +48,7 @@ class CarDriver:
     @classmethod
     def get_gpio_speed(cls, speed):
         if 15 > speed > -15:
-            return cls.stop
+            return cls.stop_speed
         elif speed > 0:
             return cls.get_gpio_speed_with_parameters(cls.free_front_left,
                                                       cls.free_front_right,
@@ -66,7 +66,7 @@ class CarDriver:
             return gpio_value
 
         cls.send_message_obstacle_detected(base_sensor)
-        return cls.stop
+        return cls.stop_speed
 
     """End Speed Shit methods"""
 
