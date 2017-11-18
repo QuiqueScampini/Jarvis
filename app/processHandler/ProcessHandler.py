@@ -52,6 +52,7 @@ class ProcessHandler(Thread):
         elif message_type == "4":  # Shutdown
             self.jarvis.stop()
         elif message_type == "12":  # Sensors Values
+            logging.info('Changing Sensors Values')
             CarDriver.set_sensor_values(json_action["free_front_left"],
                                         json_action["free_front_right"],
                                         json_action["free_back_left"],
