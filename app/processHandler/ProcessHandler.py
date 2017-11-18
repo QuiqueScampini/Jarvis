@@ -41,17 +41,17 @@ class ProcessHandler(Thread):
     def process_json_action(self, json_action):
         message_type = json_action["messageType"]
 
-        if message_type == 0:  # Start Driving
+        if message_type == "0":  # Start Driving
             """Start Driving"""
             self.jarvis.start_driving()
         elif message_type == "1":  # Movement
             CarDriver.process_movement(json_action["angle"], json_action["power"])
-        elif message_type == 3:  # Auto Return
+        elif message_type == "3":  # Auto Return
             # TODO Call Ultron
             pass
-        elif message_type == 4:  # Shutdown
+        elif message_type == "4":  # Shutdown
             self.jarvis.stop()
-        elif message_type == 12:  # Sensors Values
+        elif message_type == "12":  # Sensors Values
             CarDriver.set_sensor_values(json_action["free_front_left"],
                                         json_action["free_front_right"],
                                         json_action["free_back_left"],

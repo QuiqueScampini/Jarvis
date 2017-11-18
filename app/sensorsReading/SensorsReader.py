@@ -20,7 +20,7 @@ class SensorsReader(Process):
         self.active = False
 
     def feasibility_message(self):
-        return '{"messageType": 12' + \
+        return '{"messageType": "12"' + \
                ', "free_front_left": ' + str(self.free_front_left()).lower() + \
                ', "free_front_right": ' + str(self.free_front_right()).lower() + \
                ', "free_back_left": ' + str(self.free_back_left()).lower() + \
