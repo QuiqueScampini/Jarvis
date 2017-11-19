@@ -10,7 +10,7 @@ if [ -f FILM_PID ]; then
     kill ${pid}
     ps -ef | grep ${pid} | grep ffmpeg | grep -v grep > /dev/null
 	while [ $? -eq 0 ];do
-		ps -ef | grep ${pid} | grep ffmpeg | grep -v grep
+		ps -ef | grep ${pid} | grep ffmpeg | grep -v grep > /dev/null
 	done
 
     rm -f FILM_PID
@@ -21,7 +21,7 @@ if [ -f STITCH_PID ]; then
     kill ${pid}
     ps -ef | grep ${pid} | grep ffmpeg | grep -v grep > /dev/null
 	while [ $? -eq 0 ];do
-		ps -ef | grep ${pid} | grep ffmpeg | grep -v grep
+		ps -ef | grep ${pid} | grep ffmpeg | grep -v grep > /dev/null
 	done
 
 	rm -f STITCH_PID
@@ -32,7 +32,7 @@ if [ -f CONVERT_PID ]; then
     kill ${pid}
     ps -ef | grep ${pid} | grep ffmpeg | grep -v grep > /dev/null
 	while [ $? -eq 0 ];do
-		ps -ef | grep ${pid} | grep ffmpeg | grep -v grep
+		ps -ef | grep ${pid} | grep ffmpeg | grep -v grep > /dev/null
 	done
 
 	rm -f CONVERT_PID
