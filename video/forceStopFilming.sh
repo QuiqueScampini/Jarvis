@@ -4,7 +4,7 @@ cd ${JARVIS_VIDEO}
 
 actualProcessPid=${1}
 
-kill ${actualProcessPid}
+kill -9 ${actualProcessPid}
 
 if [ -f FILM_PID ]; then
     pid=`cat FILM_PID`
