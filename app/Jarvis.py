@@ -1,4 +1,5 @@
 import logging
+import os
 from multiprocessing import Queue
 from sensorsReading.SensorsReader import SensorsReader
 from processHandler.ProcessHandler import ProcessHandler
@@ -33,7 +34,7 @@ class Jarvis:
         self.sensors_reader.start()
 
     def start_driving(self):
-        # TODO start FILMING
+        os.system("startFilming &")
         logging.info('Starting FILMING THIS SHIT')
         pass
 

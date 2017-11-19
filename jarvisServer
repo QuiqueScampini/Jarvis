@@ -1,11 +1,7 @@
 #!/bin/bash
 
+cd ${JARVIS_HOME}
 
-WORK_DIR=`pwd`
-JARVIS_HOME=${WORK_DIR}/app
-JARVIS_LOG=${WORK_DIR}/Jarvis.log
-JARVIS_OLD_LOG=${WORK_DIR}/old.Jarvis.log
- 
 start() {
     mv ${JARVIS_LOG} ${JARVIS_OLD_LOG}
     echo "Starting mjpg_streamer - `date '+%d/%m/%Y %H:%M:%S'`"
@@ -15,6 +11,7 @@ start() {
     sudo pigpiod
     echo "pigpiod Started - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "Starting Server - `date '+%d/%m/%Y %H:%M:%S'`"
+    cd ${JARVIS_APP}
     python3 -u Jarvis.py &
     echo "Server started."
 }
@@ -39,8 +36,6 @@ stop() {
 	echo "Stopping pigpiod - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "pigpiod killed."
 }
-
-cd ${JARVIS_HOME}
 
 case "$1" in
   start)
