@@ -34,9 +34,8 @@ class Jarvis:
         self.sensors_reader.start()
 
     def start_driving(self):
-        os.system("startFilming &")
         logging.info('Starting FILMING THIS SHIT')
-        pass
+        os.system("filmDrive.sh &")
 
     def start_stitching(self):
         # TODO Send this shit to stitch the video and inform it's Done

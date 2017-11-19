@@ -7,8 +7,10 @@ JARVIS_LOG=${JARVIS_HOME}/Jarvis.log
 export JARVIS_LOG
 JARVIS_OLD_LOG=${JARVIS_HOME}/old.Jarvis.log
 export JARVIS_OLD_LOG
+JARVIS_VIDEO=${JARVIS_HOME}/video
+export JARVIS_VIDEO
 
-PATH=${PATH}:${JARVIS_HOME}
+PATH=${PATH}:${JARVIS_HOME}:${JARVIS_VIDEO}
 export PATH
 
 alias startJarvis="jarvisServer start"
