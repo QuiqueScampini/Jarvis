@@ -8,14 +8,12 @@ start() {
     # Check IF PROGRAM IS RUNNING
     if [ -f ${lockPID} ]; then
         pid=`cat ${lockPID}`
-        ps -ef | grep -v grep | grep " ${pid} " | grep "${0}" > /dev/null
+        ps -ef | grep -v grep | grep " ${pid} " | grep "Jarvis.py" > /dev/null
         if [ $? -eq 0 ]; then
             echo "Jarvis Server already running"
             exit 1
         fi
     fi
-    #STARTING
-    echo $$ > ${lockPID}
 
     mv ${JARVIS_LOG} ${JARVIS_OLD_LOG}
 
@@ -35,6 +33,7 @@ start() {
     echo "Starting Jarvis Server - `date '+%d/%m/%Y %H:%M:%S'`"
     cd ${JARVIS_APP}
     python3 -u Jarvis.py &
+    echo !$ > ${lockPID}
     echo "Jarvis Server started."
 }
 
