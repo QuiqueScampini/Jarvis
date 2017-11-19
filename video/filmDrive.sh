@@ -44,4 +44,6 @@ echo ${pid} > CONVERT_PID
 wait ${pid}
 rm CONVERT_PID
 
+mv final.mp4 ${LAST_DRIVE_PATH}/.
+
 exit 0

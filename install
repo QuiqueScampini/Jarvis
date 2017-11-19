@@ -13,6 +13,11 @@ if [ ! -f ~/.bash_aliases ]; then
     touch ~/.bash_aliases
 fi
 
+if [ ! -d ~/lastdrive ]; then
+    echo "Creating ~/lastdrive"
+    mkdir ~/lastdrive
+fi
+
 echo "Adding Environment Variables to .bash_aliases"
 cat ./resources/.bash_aliases >> ~/.bash_aliases
 
