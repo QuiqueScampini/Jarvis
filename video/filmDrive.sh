@@ -27,6 +27,7 @@ pid=$!
 echo ${pid} > FILM_PID
 
 wait ${pid}
+rm FILM_PID
 
 #Start Stitching
 ffmpeg  -i lastdrive.mp4 -i /home/pi/thetacam_workspace/zx.pgm -i /home/pi/thetacam_workspace/zy.pgm -filter_complex "remap"  stitcheado.mp4 </dev/null >/dev/null 2> stitcheado.log &
@@ -34,13 +35,13 @@ pid=$!
 echo ${pid} > STITCH_PID
 
 wait ${pid}
+rm STITCH_PID
 
 ffmpeg -i stitcheado.mp4 -c:v mpeg4 final.mp4 </dev/null >/dev/null 2> final.log &
 pid=$!
 echo ${pid} > CONVERT_PID
 
 wait ${pid}
-
-rm -f FILM_PID STITCH_PID CONVERT_PID
+rm CONVERT_PID
 
 exit 0
