@@ -15,6 +15,7 @@ export LAST_DRIVE_PATH
 PATH=${PATH}:${JARVIS_HOME}:${JARVIS_VIDEO}
 export PATH
 
+alias jarvis="cd ${JARVIS_HOME}"
 alias startJarvis="jarvisServer start"
 alias stopJarvis="jarvisServer stop"
 alias restartJarvis="jarvisServer restart"
