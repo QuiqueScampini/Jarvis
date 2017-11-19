@@ -4,7 +4,7 @@ from .JarvisGpio import JarvisGpio
 class JarvisGpioDriver(JarvisGpio):
 
     speed_Pin = 18
-    direction_Pin = 14
+    direction_Pin = 27
 
     @classmethod
     def set_speed(cls, new_speed):

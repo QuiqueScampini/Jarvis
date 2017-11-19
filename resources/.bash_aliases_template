@@ -1,0 +1,23 @@
+#-----------------------------JARVIS
+JARVIS_HOME=JARVIS_INSTALL_DIR
+export JARVIS_HOME
+JARVIS_APP=${JARVIS_HOME}/app
+export JARVIS_APP
+JARVIS_LOG=${JARVIS_HOME}/Jarvis.log
+export JARVIS_LOG
+JARVIS_OLD_LOG=${JARVIS_HOME}/old.Jarvis.log
+export JARVIS_OLD_LOG
+JARVIS_VIDEO=${JARVIS_HOME}/video
+export JARVIS_VIDEO
+LAST_DRIVE_PATH=~/lastdrive
+export LAST_DRIVE_PATH
+
+PATH=${PATH}:${JARVIS_HOME}:${JARVIS_VIDEO}
+export PATH
+
+alias jarvis="cd ${JARVIS_HOME}"
+alias startJarvis="jarvisServer start"
+alias stopJarvis="jarvisServer stop"
+alias restartJarvis="jarvisServer restart"
+
+

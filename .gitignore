@@ -1,5 +1,8 @@
 .idea/
 __pycache__
 /jarvis.iml
-/Jarvis.log
-/old.Jarvis.log
+*.log
+*.bash_aliases
+*.mp4
+*_PID
+*.pid

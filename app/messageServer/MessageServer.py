@@ -6,9 +6,10 @@ from util.Constant import Constant
 
 class MessageServer(Thread):
 
-    def __init__(self, process_queue):
+    def __init__(self, process_queue, jarvis):
         Thread.__init__(self)
         self.setName('MessageServer')
+        self.jarvis = jarvis
         self.process_queue = process_queue
         self.active = True
         self.waiting_client = True
@@ -29,6 +30,7 @@ class MessageServer(Thread):
                     self.receive_messages()
             except socket.timeout:
                 self.waiting_client = True
+                self.jarvis.stop_filming()
                 logging.info('Client Socket Timeout')
             finally:
                 if self.connection:
