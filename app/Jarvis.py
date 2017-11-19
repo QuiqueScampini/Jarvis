@@ -1,9 +1,12 @@
 import logging
 import os
 from multiprocessing import Queue
+
+from gps.GpsReader import GpsReader
 from sensorsReading.SensorsReader import SensorsReader
 from processHandler.ProcessHandler import ProcessHandler
 from messageServer.MessageServer import MessageServer
+from ultron.Ultron import Ultron
 
 
 class Jarvis:
@@ -11,11 +14,16 @@ class Jarvis:
     def __init__(self):
         self.configure_log()
         self.process_queue = Queue()
+        "Ultron"
+        self.ultron = Ultron(self)
         """PRODUCERS"""
         self.message_server = MessageServer(self.process_queue, self)
         self.sensors_reader = SensorsReader(self.process_queue)
         """CONSUMER"""
-        self.process_handler = ProcessHandler(self.process_queue, self.message_server, self)
+        self.process_handler = ProcessHandler(self.process_queue, self.message_server, self.ultron, self)
+        "GPS Reader"
+        self.gps_reader = GpsReader(self.message_server)
+
 
     @staticmethod
     def configure_log():
