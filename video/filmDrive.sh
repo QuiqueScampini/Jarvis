@@ -20,6 +20,7 @@ echo $$ > ${lockPID}
 #Delete old files
 rm -f *.mp4
 rm -f *.log
+rm -f ${LAST_DRIVE_PATH}/final.mp4
 
 #Start Process
 ffmpeg -f video4linux2 -i /dev/video1 -s 2000x1000 -c:v h264 -f mp4 lastdrive.mp4 </dev/null >/dev/null 2> lastdrive.log &

@@ -3,17 +3,38 @@
 cd ${JARVIS_HOME}
 
 start() {
+
+    lockPID="./lock.pid"
+    # Check IF PROGRAM IS RUNNING
+    if [ -f ${lockPID} ]; then
+        pid=`cat ${lockPID}`
+        ps -ef | grep -v grep | grep " ${pid} " | grep "${0}" > /dev/null
+        if [ $? -eq 0 ]; then
+            # WE ARE RUNNING - WE FORCE STOP
+            echo "Jarvis Server already running"
+            exit 1
+        fi
+    fi
+
     mv ${JARVIS_LOG} ${JARVIS_OLD_LOG}
+
     echo "Starting mjpg_streamer - `date '+%d/%m/%Y %H:%M:%S'`"
-    /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /usr/local/www -p 8090" &
+    /usr/local/bin/mjpg_streamer -i "/usr/local/lib/input_uvc.so" -o "/usr/local/lib/output_http.so -w /usr/local/www -p 8090" >/dev/null 2> /dev/null &
     echo "mjpg_streamer Started - `date '+%d/%m/%Y %H:%M:%S'`"
+
     echo "Starting pigpiod - `date '+%d/%m/%Y %H:%M:%S'`"
-    sudo pigpiod
+    sudo service pigpiod start
     echo "pigpiod Started - `date '+%d/%m/%Y %H:%M:%S'`"
-    echo "Starting Server - `date '+%d/%m/%Y %H:%M:%S'`"
+
+    echo "Starting gpsd - `date '+%d/%m/%Y %H:%M:%S'`"
+    sudo gpsd /dev/ttyUSB0 -F /var/run/gpsd.sock
+    sudo service gpsd start
+    echo "gpsd Started - `date '+%d/%m/%Y %H:%M:%S'`"
+
+    echo "Starting Jarvis Server - `date '+%d/%m/%Y %H:%M:%S'`"
     cd ${JARVIS_APP}
     python3 -u Jarvis.py &
-    echo "Server started."
+    echo "Jarvis Server started."
 }
 
 stop() {
@@ -30,11 +51,12 @@ stop() {
 	echo "Stopping mjpg_streamer - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "mjpg_streamer killed."
 
-    pid=`ps -ef | grep 'pigpiod' | grep -v grep | awk '{ print $2 }'`
-    echo ${pid}
-    sudo kill ${pid}
+    sudo service pigpiod stop
 	echo "Stopping pigpiod - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "pigpiod killed."
+
+    sudo service gpsd stop
+    echo "Stopping gpsd - `date '+%d/%m/%Y %H:%M:%S'`"
 }
 
 case "$1" in
