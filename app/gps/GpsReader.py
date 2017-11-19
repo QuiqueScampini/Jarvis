@@ -10,12 +10,13 @@ class GpsReader(Thread):
         Thread.__init__(self)
         self.setName('GpsReader')
         gpsd.connect()
-        self.gps_reader = gpsd.get_current()
+        self.gps_reader = None
         self.point_list = []
         self.active = True
         self.message_server = message_server
 
     def run(self):
+        self.gps_reader = gpsd.get_current()
         last_point = None
         counter = 60
         while self.active:
