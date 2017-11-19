@@ -59,7 +59,9 @@ stop() {
 	echo "Stopping pigpiod - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "pigpiod killed."
 
-    sudo service gpsd stop
+    pid=`ps -ef | grep 'gpsd' | grep -v grep | awk '{ print $2 }'`
+    echo ${pid}
+    sudo kill ${pid}
     echo "Stopping gpsd - `date '+%d/%m/%Y %H:%M:%S'`"
 }
 
