@@ -42,4 +42,6 @@ echo ${pid} > CONVERT_PID
 
 wait ${pid}
 
+rm -f FILM_PID STITCH_PID CONVERT_PID
+
 exit 0
