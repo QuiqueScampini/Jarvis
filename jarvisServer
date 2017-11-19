@@ -25,7 +25,7 @@ start() {
     echo "mjpg_streamer Started - `date '+%d/%m/%Y %H:%M:%S'`"
 
     echo "Starting pigpiod - `date '+%d/%m/%Y %H:%M:%S'`"
-    sudo service pigpiod start
+    sudo pigpiod
     echo "pigpiod Started - `date '+%d/%m/%Y %H:%M:%S'`"
 
     echo "Starting gpsd - `date '+%d/%m/%Y %H:%M:%S'`"
@@ -53,7 +53,9 @@ stop() {
 	echo "Stopping mjpg_streamer - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "mjpg_streamer killed."
 
-    sudo service pigpiod stop
+    pid=`ps -ef | grep 'pigpiod' | grep -v grep | awk '{ print $2 }'`
+    echo ${pid}
+    sudo kill ${pid}
 	echo "Stopping pigpiod - `date '+%d/%m/%Y %H:%M:%S'`"
     echo "pigpiod killed."
 
