@@ -10,7 +10,6 @@ if [ -f ${lockPID} ]; then
 
 	if [ $? -eq 0 ]; then
 		# WE ARE RUNNING - WE FORCE STOP
-		echo "WE FORCE FILMING"
 		forceStopFilming.sh ${pid}
 	fi
 fi

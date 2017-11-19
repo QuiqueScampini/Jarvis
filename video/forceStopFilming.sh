@@ -3,7 +3,6 @@
 cd ${JARVIS_VIDEO}
 
 actualProcessPid=${1}
-
 kill -9 ${actualProcessPid}
 
 if [ -f FILM_PID ]; then
@@ -17,7 +16,6 @@ if [ -f FILM_PID ]; then
     rm -f FILM_PID
 fi
 
-
 if [ -f STITCH_PID ]; then
     pid=`cat STITCH_PID`
     kill ${pid}
@@ -28,8 +26,6 @@ if [ -f STITCH_PID ]; then
 
 	rm -f STITCH_PID
 fi
-
-
 
 if [ -f CONVERT_PID ]; then
     pid=`cat CONVERT_PID`
