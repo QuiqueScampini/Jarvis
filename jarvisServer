@@ -33,7 +33,7 @@ start() {
     echo "Starting Jarvis Server - `date '+%d/%m/%Y %H:%M:%S'`"
     cd ${JARVIS_APP}
     python3 -u Jarvis.py &
-    echo !$ > ${lockPID}
+    echo $! > ${lockPID}
     echo "Jarvis Server started."
 }
 
