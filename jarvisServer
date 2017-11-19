@@ -4,7 +4,7 @@ cd ${JARVIS_HOME}
 
 start() {
 
-    lockPID="./lock.pid"
+    lockPID="${JARVIS_HOME}/lock.pid"
     # Check IF PROGRAM IS RUNNING
     if [ -f ${lockPID} ]; then
         pid=`cat ${lockPID}`
