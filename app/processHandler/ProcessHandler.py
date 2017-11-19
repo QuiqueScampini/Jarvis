@@ -43,10 +43,11 @@ class ProcessHandler(Thread):
 
         if message_type == "0":  # Start Driving
             """Start Driving"""
-            self.jarvis.start_driving()
+            self.jarvis.start_filming()
         elif message_type == "1":  # Movement
             CarDriver.process_movement(json_action["angle"], json_action["power"])
         elif message_type == "3":  # Auto Return
+            self.jarvis.stop_filming()
             # TODO Call Ultron
             pass
         elif message_type == "4":  # Shutdown

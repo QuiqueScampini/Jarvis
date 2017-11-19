@@ -12,7 +12,7 @@ class Jarvis:
         self.configure_log()
         self.process_queue = Queue()
         """PRODUCERS"""
-        self.message_server = MessageServer(self.process_queue)
+        self.message_server = MessageServer(self.process_queue, self)
         self.sensors_reader = SensorsReader(self.process_queue)
         """CONSUMER"""
         self.process_handler = ProcessHandler(self.process_queue, self.message_server, self)
@@ -33,12 +33,15 @@ class Jarvis:
         logging.info('Starting SensorsReader')
         self.sensors_reader.start()
 
-    def start_driving(self):
-        logging.info('Starting FILMING THIS SHIT')
+    @staticmethod
+    def start_filming():
+        logging.info('Start FILMING')
         os.system("filmDrive.sh &")
 
-    def start_stitching(self):
-        # TODO Send this shit to stitch the video and inform it's Done
+    @staticmethod
+    def stop_filming():
+        logging.info('Starting Stitching')
+        os.system("stopFilming.sh &")
         pass
 
     def stop(self):
