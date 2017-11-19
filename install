@@ -16,6 +16,7 @@ fi
 if [ ! -d ~/lastdrive ]; then
     echo "Creating ~/lastdrive"
     mkdir ~/lastdrive
+    chmod -R 777 ~/lastdrive
 fi
 
 echo "Adding Environment Variables to .bash_aliases"
