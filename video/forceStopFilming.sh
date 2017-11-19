@@ -8,19 +8,19 @@ kill -9 ${actualProcessPid}
 
 if [ -f FILM_PID ]; then
     pid=`cat FILM_PID`
-    kill -9 ${pid}
+    kill ${pid}
     wait ${pid}
 fi
 
 if [ -f STITCH_PID ]; then
     pid=`cat STITCH_PID`
-    kill -9 ${pid}
+    kill ${pid}
     wait ${pid}
 fi
 
 if [ -f CONVERT_PID ]; then
     pid=`cat CONVERT_PID`
-    kill -9 ${pid}
+    kill ${pid}
     wait ${pid}
 fi
 
