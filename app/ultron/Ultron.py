@@ -11,6 +11,8 @@ class Ultron:
         self.optimized_road = []
         self.steps = []
         self.earth_radio = 6372797.56086
+        # TODO Put actual Value
+        self.meters_by_sec = 2
 
     def return_origin(self):
         self.optimize_road(self.jarvis.gps_reader.point_list)
@@ -67,7 +69,7 @@ class Ultron:
                 delta_long = (longitude2 / conversion_constant) - (longitude1 / conversion_constant)
                 vara = sin(delta_lat/2) * sin(delta_lat/2) + cos(latitude1/conversion_constant) * cos(latitude2/conversion_constant) * sin(delta_long/conversion_constant)*sin(delta_long/conversion_constant)
                 varc = 2 * atan2(sqrt(vara), sqrt(1-vara))
-                vard = self.earth_radio * varc
+                vard = (self.earth_radio * varc) / self.meters_by_sec
                 """End Distance"""
 
                 if first_pass:

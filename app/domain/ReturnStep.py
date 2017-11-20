@@ -2,7 +2,7 @@
 
 class ReturnStep:
 
-    def __init__(self, meters, direction, angle):
-        self.meters = meters
+    def __init__(self, seconds, direction, angle):
+        self.seconds = seconds
         self.direction = direction
         self.angle = angle
