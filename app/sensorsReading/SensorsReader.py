@@ -5,16 +5,16 @@ from gpio.JarvisGpioSensors import JarvisGpioSensors
 
 class SensorsReader(Process):
 
-    def __init__(self, process_queue):
+    def __init__(self, sensors_reader_queue):
         Process.__init__(self)
         self.active = True
         self.distance_to_stop = 60
-        self.process_queue = process_queue
+        self.sensors_reader_queue = sensors_reader_queue
 
     def run(self):
         while self.active:
-            self.process_queue.put(self.feasibility_message())
-            sleep(0.1)
+            self.sensors_reader_queue.put(self.feasibility_message())
+            sleep(0.2)
 
     def stop(self):
         self.active = False

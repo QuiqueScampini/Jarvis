@@ -56,7 +56,7 @@ class MessageServer(Thread):
         if message:
             message_str = message.decode('utf-8')
             logging.debug('Message received ' + message_str)
-            self.process_queue.put(message_str)
+            self.process_queue.put((2, message_str))
             self.connection.send(message)
 
     def stop(self):

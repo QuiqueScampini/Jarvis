@@ -1,11 +1,12 @@
 import logging
 import os
-from multiprocessing import Queue
-
+import multiprocessing as multiprocess
+import queue as normal_queue
 from gps.GpsReader import GpsReader
 from sensorsReading.SensorsReader import SensorsReader
 from processHandler.ProcessHandler import ProcessHandler
 from messageServer.MessageServer import MessageServer
+from sensorsReading.SensorsReaderUpdater import SensorsReaderUpdater
 from ultron.Ultron import Ultron
 
 
@@ -13,17 +14,18 @@ class Jarvis:
 
     def __init__(self):
         self.configure_log()
-        self.process_queue = Queue()
+        self.process_queue = normal_queue.PriorityQueue()
+        self.sensors_reader_queue = multiprocess.Queue()
         "Ultron"
         self.ultron = Ultron(self)
         """PRODUCERS"""
         self.message_server = MessageServer(self.process_queue, self)
-        self.sensors_reader = SensorsReader(self.process_queue)
+        self.sensors_reader = SensorsReader(self.sensors_reader_queue)
+        self.sensors_reader_updater = SensorsReaderUpdater(self.sensors_reader_queue, self.process_queue)
         """CONSUMER"""
         self.process_handler = ProcessHandler(self.process_queue, self.message_server, self.ultron, self)
         "GPS Reader"
         self.gps_reader = GpsReader(self.message_server)
-
 
     @staticmethod
     def configure_log():
@@ -40,6 +42,8 @@ class Jarvis:
         self.process_handler.start()
         logging.info('Starting SensorsReader')
         self.sensors_reader.start()
+        logging.info('Starting SensorsReader Updater')
+        self.sensors_reader_updater.start()
 
     @staticmethod
     def start_filming():
@@ -56,6 +60,8 @@ class Jarvis:
         logging.debug('Stopping Jarvis')
         logging.debug('Stopping SensorsReader')
         self.sensors_reader.stop()
+        logging.info('Stopping Updater')
+        self.sensors_reader_updater.stop()
         logging.info('Stopping MessageServer')
         self.message_server.stop()
         logging.info('Stopping ProcessHandler')

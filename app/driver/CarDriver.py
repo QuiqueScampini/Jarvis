@@ -100,7 +100,7 @@ class CarDriver:
         return '{"messageType": 6, "side": ' + str(sensor_id) + '}@'
 
     @classmethod
-    def set_sensor_values(cls, free_front_left, free_front_right, free_back_left, free_back_right):
+    def set_sensor_values(cls, free_front_left, free_front_right, free_back_left, free_back_right, process_queue):
         cls.free_front_left = free_front_left
         cls.free_front_right = free_front_right
         cls.free_back_left = free_back_left
@@ -108,6 +108,6 @@ class CarDriver:
 
         speed = JarvisGpioDriver.get_speed()
         if speed == cls.forward and (not cls.free_front_left or not cls.free_front_right):
-            cls.stop_forward()
+            process_queue.put((0, '{"messageType": "13" }@'))
         if speed == cls.backward and (not cls.free_back_left or not cls.free_back_right):
-            cls.stop_backward()
+            process_queue.put((0, '{"messageType": "14" }@'))

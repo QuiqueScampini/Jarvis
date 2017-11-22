@@ -22,7 +22,7 @@ class ProcessHandler(Thread):
             messages = self.process_queue.get(True)
             if messages:
                 logging.info('Processing messages')
-                for message in messages.split('@'):
+                for message in messages[1].split('@'):
                     if message:
                         self.process_message(message)
                 logging.debug('Getting ' + str(messages)
@@ -51,10 +51,12 @@ class ProcessHandler(Thread):
             self.jarvis.stop_filming()
             self.ultron.return_origin()
             pass
-        elif message_type == "4":  # Shutdown
-            self.jarvis.stop()
         elif message_type == "12":  # Sensors Values
             CarDriver.set_sensor_values(json_action["free_front_left"],
                                         json_action["free_front_right"],
                                         json_action["free_back_left"],
                                         json_action["free_back_right"])
+        elif message_type == "13":  # Shutdown
+            CarDriver.stop_forward()
+        elif message_type == "14":  # Shutdown
+            CarDriver.stop_backward()
