@@ -26,7 +26,11 @@ class CarDriver:
         cls.process_speed_move(speed)
 
     @classmethod
-    def stop(cls):
+    def stop_forward(cls):
+        JarvisGpioDriver.set_speed(cls.brake_speed)
+
+    @classmethod
+    def stop_backward(cls):
         JarvisGpioDriver.set_speed(cls.stop_speed)
 
     @classmethod
@@ -103,6 +107,7 @@ class CarDriver:
         cls.free_back_right = free_back_right
 
         speed = JarvisGpioDriver.get_speed()
-        if (speed == cls.forward and (not cls.free_front_left or not cls.free_front_right)) or \
-                (speed == cls.backward and (not cls.free_back_left or not cls.free_back_right)):
-            cls.stop()
+        if speed == cls.forward and (not cls.free_front_left or not cls.free_front_right):
+            cls.stop_forward()
+        if speed == cls.backward and (not cls.free_back_left or not cls.free_back_right):
+            cls.stop_backward()

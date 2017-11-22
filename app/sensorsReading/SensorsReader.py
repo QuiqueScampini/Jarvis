@@ -14,7 +14,7 @@ class SensorsReader(Process):
     def run(self):
         while self.active:
             self.process_queue.put(self.feasibility_message())
-            sleep(0.2)
+            sleep(0.1)
 
     def stop(self):
         self.active = False

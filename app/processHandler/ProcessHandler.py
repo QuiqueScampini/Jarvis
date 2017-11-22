@@ -5,10 +5,11 @@ from driver.CarDriver import CarDriver
 
 
 class ProcessHandler(Thread):
-    def __init__(self, process_queue, message_server, jarvis):
+    def __init__(self, process_queue, message_server, ultron, jarvis):
         Thread.__init__(self)
         self.setName('ProcessHandler')
         self.active = True
+        self.ultron = ultron
         self.jarvis = jarvis
         self.process_queue = process_queue
         self.message_server = message_server
@@ -48,7 +49,7 @@ class ProcessHandler(Thread):
             CarDriver.process_movement(json_action["angle"], json_action["power"])
         elif message_type == "3":  # Auto Return
             self.jarvis.stop_filming()
-            # TODO Call Ultron
+            self.ultron.return_origin()
             pass
         elif message_type == "4":  # Shutdown
             self.jarvis.stop()
