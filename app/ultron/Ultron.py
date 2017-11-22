@@ -11,8 +11,7 @@ class Ultron:
         self.optimized_road = []
         self.steps = []
         self.earth_radio = 6372797.56086
-        # TODO Put actual Value
-        self.meters_by_sec = 2
+        self.meters_by_sec = 2.4
 
     def return_origin(self):
         self.optimize_road(self.jarvis.gps_reader.point_list)
