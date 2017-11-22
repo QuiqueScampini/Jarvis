@@ -73,6 +73,5 @@ if __name__ == '__main__':
     jarvisInstance = Jarvis()
     jarvisInstance.start()
     jarvisInstance.wait_joins()
-    # TODO After this Shut down this hole shit
     logging.debug('End')
 

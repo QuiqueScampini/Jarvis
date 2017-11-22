@@ -39,7 +39,7 @@ class GpsReader(Thread):
 
     def get_position(self):
         latitude, longitude = self.gps_reader.position()
-        return Point(latitude, longitude, len(self.point_list))
+        return Point(len(self.point_list), latitude, longitude, None)
 
     def inform_stuck(self, point):
         # TODO send message informing we are stuck in that Point

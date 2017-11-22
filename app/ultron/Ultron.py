@@ -73,7 +73,7 @@ class Ultron:
                 """End Distance"""
 
                 if first_pass:
-                    self.steps.append(ReturnStep(vard, Direction.DIR_LEFT, 180))
+                    self.steps.append(ReturnStep(vard, Direction.LEFT, 180))
                     first_pass = False
                 else:
                     vector_w = latitude2 - latitude1
@@ -90,10 +90,10 @@ class Ultron:
                     vectorcompy = longitude2 - old_longitude
                     prodvectorial = vector_x * vectorcompy - vector_y * vectorcompx
 
-                    direction = Direction.DIR_LEFT
+                    direction = Direction.LEFT
                     angle = cos_tita
                     if prodvectorial > 0:
-                        direction = Direction.DIR_RIGHT
+                        direction = Direction.RIGHT
                     elif prodvectorial == 0:
                         angle = 0
                     self.steps.append(ReturnStep(vard, direction, angle))
