@@ -23,7 +23,8 @@ rm -f *.log
 rm -f ${LAST_DRIVE_PATH}/final.mp4
 
 #Start Process
-ffmpeg -f video4linux2 -i /dev/video1 -s 2000x1000 -c:v h264 -f mp4 lastdrive.mp4 </dev/null >/dev/null 2> lastdrive.log &
+#ffmpeg -f video4linux2 -i /dev/video1 -s 2000x1000 -c:v h264 -f mp4 lastdrive.mp4 </dev/null >/dev/null 2> lastdrive.log &
+ffmpeg -i /dev/video1 -s 480x240 -vcodec h264 lastdrive.mp4 </dev/null >/dev/null 2> lastdrive.log &
 pid=$!
 echo ${pid} > FILM_PID
 
@@ -31,6 +32,7 @@ wait ${pid}
 rm FILM_PID
 
 #Start Stitching
+#ffmpeg  -i lastdrive.mp4 -i zx.pgm -i zy.pgm -filter_complex "remap"  stitcheado.mp4 </dev/null >/dev/null 2> stitcheado.log &
 ffmpeg  -i lastdrive.mp4 -i zx.pgm -i zy.pgm -filter_complex "remap"  stitcheado.mp4 </dev/null >/dev/null 2> stitcheado.log &
 pid=$!
 echo ${pid} > STITCH_PID
@@ -38,6 +40,7 @@ echo ${pid} > STITCH_PID
 wait ${pid}
 rm STITCH_PID
 
+#ffmpeg -i stitcheado.mp4 -c:v mpeg4 final.mp4 </dev/null >/dev/null 2> final.log &
 ffmpeg -i stitcheado.mp4 -c:v mpeg4 final.mp4 </dev/null >/dev/null 2> final.log &
 pid=$!
 echo ${pid} > CONVERT_PID
