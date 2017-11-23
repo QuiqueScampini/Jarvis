@@ -35,6 +35,7 @@ class ProcessHandler(Thread):
 
     def process_message(self, message):
         try:
+            logging.info("Verificando " + message)
             self.process_json_action(json.loads(message))
         except Exception as error:
             logging.error(str(error))
